@@ -138,3 +138,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+@layer utilities {
+  .container {
+    width: 96% !important;
+    margin: 0 auto;
+  }
+}
