@@ -6,9 +6,7 @@ export const login = (data: AuthRequestFields) => {
 };
 
 export const register = (data: AuthRequestFields) => {
-  return api.post('/api/auth/register', {
-    data: data,
-  });
+  return api.post('/api/auth/register', data);
 };
 
 export const getProfile = () => {

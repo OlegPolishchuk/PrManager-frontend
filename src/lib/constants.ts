@@ -8,4 +8,5 @@ export const ERROR_MESSAGES: Record<string, string> = {
 
 export const AUTH_ERROR_MESSAGES: Record<string, string> = {
   ['Unauthorized']: 'Пользователя с такими данными не существует! Проверьте email или пароль!',
+  ['User with email already exists']: 'Такой email уже зарегистрирован в системе!',
 };

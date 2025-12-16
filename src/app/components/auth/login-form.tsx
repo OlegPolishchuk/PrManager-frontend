@@ -20,6 +20,8 @@ import { useLogin } from '@/entities/auth/hooks.ts';
 export const LoginForm = () => {
   const loginMutation = useLogin();
 
+  const disabled = loginMutation.isPending;
+
   const form = useForm<AuthSchema>({
     resolver: zodResolver(authSchema),
     defaultValues: {
@@ -49,6 +51,7 @@ export const LoginForm = () => {
             <Controller
               name='email'
               control={form.control}
+              disabled={disabled}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor='login_form_email'>Email</FieldLabel>
@@ -68,6 +71,7 @@ export const LoginForm = () => {
             <Controller
               name='password'
               control={form.control}
+              disabled={disabled}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor='login_form_password'>Password</FieldLabel>
@@ -95,10 +99,10 @@ export const LoginForm = () => {
 
       <CardFooter>
         <Field orientation='horizontal' className={'justify-end'}>
-          <Button type='button' variant='outline' onClick={() => form.reset()}>
+          <Button type='button' variant='outline' onClick={() => form.reset()} disabled={disabled}>
             Сбросить
           </Button>
-          <Button type='submit' form='login_form'>
+          <Button type='submit' form='login_form' disabled={disabled} loading={disabled}>
             Войти
           </Button>
         </Field>

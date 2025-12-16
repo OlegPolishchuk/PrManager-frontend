@@ -1,6 +1,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createFileRoute, Link } from '@tanstack/react-router';
+import { toast } from 'sonner';
 
 import { type AuthSchema, authSchema } from '@/app/components/auth/autn.schema.ts';
 import { Button } from '@/app/components/ui/button.tsx';
@@ -15,12 +16,15 @@ import {
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/app/components/ui/field.tsx';
 import { Input } from '@/app/components/ui/input.tsx';
 import { Typography } from '@/app/components/ui/typography.tsx';
+import { useRegister } from '@/entities/auth/hooks.ts';
 
 export const Route = createFileRoute('/_auth/register/')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const registerMutation = useRegister();
+
   const form = useForm<AuthSchema>({
     resolver: zodResolver(authSchema),
     defaultValues: {
@@ -29,8 +33,14 @@ function RouteComponent() {
     },
   });
 
+  const disabled = registerMutation.isPending;
+
   const handleSubmit = (data: AuthSchema) => {
-    console.log('data =>', data);
+    registerMutation.mutate(data, {
+      onSuccess: () => {
+        toast.success('Вы успешно щарегистрировались!');
+      },
+    });
   };
 
   return (
@@ -50,6 +60,7 @@ function RouteComponent() {
             <Controller
               name='email'
               control={form.control}
+              disabled={disabled}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor='register_form_email'>Email</FieldLabel>
@@ -58,7 +69,6 @@ function RouteComponent() {
                     id='register_form_email'
                     aria-invalid={fieldState.invalid}
                     placeholder='JohnDoe@mail.com'
-                    autoComplete='off'
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -70,6 +80,7 @@ function RouteComponent() {
             <Controller
               name='password'
               control={form.control}
+              disabled={disabled}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor='register_form_password'>Password</FieldLabel>
@@ -97,10 +108,10 @@ function RouteComponent() {
 
       <CardFooter>
         <Field orientation='horizontal' className={'justify-end'}>
-          <Button type='button' variant='outline' onClick={() => form.reset()}>
+          <Button type='button' variant='outline' onClick={() => form.reset()} disabled={disabled}>
             Сбросить
           </Button>
-          <Button type='submit' form='register_form'>
+          <Button type='submit' form='register_form' disabled={disabled}>
             Создать
           </Button>
         </Field>
