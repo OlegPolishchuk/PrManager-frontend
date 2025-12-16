@@ -1,14 +1,15 @@
-import * as React from 'react';
-import { createRootRoute, Outlet } from '@tanstack/react-router';
+import type { QueryClient } from '@tanstack/react-query';
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 
-export const Route = createRootRoute({
-  component: RootComponent,
-});
+// export interface AuthContext {
+//   user: User;
+//   isAuthenticated: boolean;
+// }
 
-function RootComponent() {
-  return (
-    <React.Fragment>
-      <Outlet />
-    </React.Fragment>
-  );
+export interface QueryClientContext {
+  queryClient: QueryClient;
 }
+
+export const Route = createRootRouteWithContext<QueryClientContext>()({
+  component: () => <Outlet />,
+});

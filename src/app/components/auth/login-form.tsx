@@ -1,6 +1,6 @@
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { Link } from '@tanstack/react-router';
 
 import { type AuthSchema, authSchema } from '@/app/components/auth/autn.schema.ts';
 import { Button } from '@/app/components/ui/button.tsx';
@@ -15,12 +15,11 @@ import {
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/app/components/ui/field.tsx';
 import { Input } from '@/app/components/ui/input.tsx';
 import { Typography } from '@/app/components/ui/typography.tsx';
+import { useLogin } from '@/entities/auth/hooks.ts';
 
-export const Route = createFileRoute('/_auth/register/')({
-  component: RouteComponent,
-});
+export const LoginForm = () => {
+  const loginMutation = useLogin();
 
-function RouteComponent() {
   const form = useForm<AuthSchema>({
     resolver: zodResolver(authSchema),
     defaultValues: {
@@ -30,19 +29,19 @@ function RouteComponent() {
   });
 
   const handleSubmit = (data: AuthSchema) => {
-    console.log('data =>', data);
+    loginMutation.mutate(data);
   };
 
   return (
     <Card className='w-full sm:max-w-md'>
       <CardHeader className={'text-center'}>
-        <CardTitle>Регистрация</CardTitle>
-        <CardDescription>Зарегистрируйтесь в приложение</CardDescription>
+        <CardTitle>Вход</CardTitle>
+        <CardDescription>Войдите в приложение</CardDescription>
       </CardHeader>
 
       <CardContent className={'mb-6'}>
         <form
-          id={'register_form'}
+          id={'login_form'}
           className={'flex flex-col gap-6'}
           onSubmit={form.handleSubmit(handleSubmit)}
         >
@@ -52,13 +51,12 @@ function RouteComponent() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor='register_form_email'>Email</FieldLabel>
+                  <FieldLabel htmlFor='login_form_email'>Email</FieldLabel>
                   <Input
                     {...field}
-                    id='register_form_email'
+                    id='login_form_email'
                     aria-invalid={fieldState.invalid}
                     placeholder='JohnDoe@mail.com'
-                    autoComplete='off'
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -72,10 +70,10 @@ function RouteComponent() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor='register_form_password'>Password</FieldLabel>
+                  <FieldLabel htmlFor='login_form_password'>Password</FieldLabel>
                   <Input
                     {...field}
-                    id='register_form_password'
+                    id='login_form_password'
                     aria-invalid={fieldState.invalid}
                     placeholder='password'
                     autoComplete='off'
@@ -87,9 +85,9 @@ function RouteComponent() {
           </FieldGroup>
 
           <Typography variant={'small'} className={'flex items-center justify-end gap-2'}>
-            Уже есть аккаунт?
-            <Link className={'text-[#1447E6FF]'} to='/login'>
-              Войти
+            Еще нет аккаунта?
+            <Link className={'text-[#1447E6FF]'} to='/register'>
+              Зарегистрироваться
             </Link>
           </Typography>
         </form>
@@ -100,11 +98,11 @@ function RouteComponent() {
           <Button type='button' variant='outline' onClick={() => form.reset()}>
             Сбросить
           </Button>
-          <Button type='submit' form='register_form'>
-            Создать
+          <Button type='submit' form='login_form'>
+            Войти
           </Button>
         </Field>
       </CardFooter>
     </Card>
   );
-}
+};
