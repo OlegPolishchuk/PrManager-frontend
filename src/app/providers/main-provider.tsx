@@ -8,9 +8,9 @@ import { ThemeProvider } from '@/app/providers/theme-provider.tsx';
 export const MainProvider = ({ children }: { children: ReactNode }) => {
   return (
     <TanstackProvider>
-      <Toaster />
-      <TanstackRouterProvider />
       <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+        <Toaster />
+        <TanstackRouterProvider />
         {children}
       </ThemeProvider>
     </TanstackProvider>

@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import type { AxiosError } from 'axios';
 
+import { Header } from '@/app/components/header/header.tsx';
 import { refreshTokensOptions, userQueryOptions } from '@/entities/auth/hooks.ts';
 
 export const Route = createFileRoute('/_authenticated')({
@@ -40,9 +41,10 @@ export const Route = createFileRoute('/_authenticated')({
 
 function AuthenticatedLayout() {
   return (
-    <div className='p-2'>
-      <div className='border-b'>I'm a layout</div>
-      <div>
+    <div className={'flex min-h-screen flex-col'}>
+      <Header />
+
+      <div className={'container h-full'}>
         <Outlet />
       </div>
     </div>

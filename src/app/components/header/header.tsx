@@ -1,26 +1,15 @@
-import { Button } from '@/app/components/ui/button.tsx';
-import { Switch } from '@/app/components/ui/switch.tsx';
-import { useTheme } from '@/app/providers';
+import { ProfileDropdownMenu } from '@/app/components/profile-dropdown-menu/profile-dropdown-menu.tsx';
+import { ThemeSwitcher } from '@/app/components/theme-switcher/theme-switcher.tsx';
+import { useGetUserProfile } from '@/entities/auth/hooks.ts';
 
 export const Header = () => {
-  const { setTheme, theme } = useTheme();
-
-  const handleChangeTheme = (checked: boolean) => {
-    if (checked) {
-      return setTheme('light');
-    }
-
-    setTheme('dark');
-  };
+  const user = useGetUserProfile();
 
   return (
-    <header>
-      <div className='flex items-center space-x-2'>
-        <Switch onCheckedChange={handleChangeTheme} defaultChecked={theme === 'light'} />
-      </div>
-      <div>
-        <Button>Button</Button>
-        <Button variant={'outline'}>Button</Button>
+    <header className={'border-b py-3'}>
+      <div className={'relative container flex w-full items-center justify-center'}>
+        <ThemeSwitcher />
+        <ProfileDropdownMenu user={user} triggerClassName={'ml-auto'} />
       </div>
     </header>
   );

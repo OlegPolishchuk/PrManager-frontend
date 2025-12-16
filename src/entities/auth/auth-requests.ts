@@ -16,3 +16,7 @@ export const getProfile = () => {
 export const refreshTokens = () => {
   return api.get('/api/auth/refresh');
 };
+
+export const logout = () => {
+  return api.post('/api/auth/logout');
+};
