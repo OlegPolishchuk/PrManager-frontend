@@ -44,9 +44,9 @@ function AuthenticatedLayout() {
     <div className={'flex min-h-screen flex-col'}>
       <Header />
 
-      <div className={'container h-full'}>
+      <main className={'container py-6'}>
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }

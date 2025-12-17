@@ -1,8 +1,9 @@
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from '@tanstack/react-router';
+import { toast } from 'sonner';
 
-import { type AuthSchema, authSchema } from '@/app/components/auth/autn.schema.ts';
+import { type AuthSchema, authSchema } from '@/app/components/pages/auth/autn.schema.ts';
 import { Button } from '@/app/components/ui/button.tsx';
 import {
   Card,
@@ -14,13 +15,12 @@ import {
 } from '@/app/components/ui/card.tsx';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/app/components/ui/field.tsx';
 import { Input } from '@/app/components/ui/input.tsx';
+import { PasswordInput } from '@/app/components/ui/password-input.tsx';
 import { Typography } from '@/app/components/ui/typography.tsx';
-import { useLogin } from '@/entities/auth/hooks.ts';
+import { useRegister } from '@/entities/auth/hooks.ts';
 
-export const LoginForm = () => {
-  const loginMutation = useLogin();
-
-  const disabled = loginMutation.isPending;
+export const RegisterForm = () => {
+  const registerMutation = useRegister();
 
   const form = useForm<AuthSchema>({
     resolver: zodResolver(authSchema),
@@ -30,20 +30,26 @@ export const LoginForm = () => {
     },
   });
 
+  const disabled = registerMutation.isPending;
+
   const handleSubmit = (data: AuthSchema) => {
-    loginMutation.mutate(data);
+    registerMutation.mutate(data, {
+      onSuccess: () => {
+        toast.success('Вы успешно щарегистрировались!');
+      },
+    });
   };
 
   return (
     <Card className='w-full sm:max-w-md'>
       <CardHeader className={'text-center'}>
-        <CardTitle>Вход</CardTitle>
-        <CardDescription>Войдите в приложение</CardDescription>
+        <CardTitle>Регистрация</CardTitle>
+        <CardDescription>Зарегистрируйтесь в приложение</CardDescription>
       </CardHeader>
 
       <CardContent className={'mb-6'}>
         <form
-          id={'login_form'}
+          id={'register_form'}
           className={'flex flex-col gap-6'}
           onSubmit={form.handleSubmit(handleSubmit)}
         >
@@ -54,10 +60,10 @@ export const LoginForm = () => {
               disabled={disabled}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor='login_form_email'>Email</FieldLabel>
+                  <FieldLabel htmlFor='register_form_email'>Email</FieldLabel>
                   <Input
                     {...field}
-                    id='login_form_email'
+                    id='register_form_email'
                     aria-invalid={fieldState.invalid}
                     placeholder='JohnDoe@mail.com'
                   />
@@ -74,10 +80,10 @@ export const LoginForm = () => {
               disabled={disabled}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor='login_form_password'>Password</FieldLabel>
-                  <Input
+                  <FieldLabel htmlFor='register_form_password'>Password</FieldLabel>
+                  <PasswordInput
                     {...field}
-                    id='login_form_password'
+                    id='register_form_password'
                     aria-invalid={fieldState.invalid}
                     placeholder='password'
                     autoComplete='off'
@@ -89,9 +95,9 @@ export const LoginForm = () => {
           </FieldGroup>
 
           <Typography variant={'small'} className={'flex items-center justify-end gap-2'}>
-            Еще нет аккаунта?
-            <Link className={'text-[#1447E6FF]'} to='/register'>
-              Зарегистрироваться
+            Уже есть аккаунт?
+            <Link className={'text-[#1447E6FF]'} to='/login'>
+              Войти
             </Link>
           </Typography>
         </form>
@@ -102,8 +108,8 @@ export const LoginForm = () => {
           <Button type='button' variant='outline' onClick={() => form.reset()} disabled={disabled}>
             Сбросить
           </Button>
-          <Button type='submit' form='login_form' disabled={disabled} loading={disabled}>
-            Войти
+          <Button type='submit' form='register_form' disabled={disabled}>
+            Создать
           </Button>
         </Field>
       </CardFooter>

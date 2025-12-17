@@ -14,14 +14,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
+} from '../ui/dropdown-menu.tsx';
 
 interface Props {
   triggerClassName?: string;
   user: User;
 }
 
-export const ProfileDropdownMenu = ({ user, triggerClassName }: Props) => {
+export const HeaderDropdownMenu = ({ user, triggerClassName }: Props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={clsx('group flex items-center gap-2', triggerClassName)}>
@@ -40,7 +40,7 @@ export const ProfileDropdownMenu = ({ user, triggerClassName }: Props) => {
         <DropdownMenuLabel className={'text-muted-foreground'}>{user.email}</DropdownMenuLabel>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link to={'/profile'} className={'flex items-center gap-2'}>
             <ProfileIcon />
             Профиль

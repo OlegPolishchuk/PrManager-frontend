@@ -13,6 +13,6 @@ export interface User {
   name?: string;
   avatar?: string;
   projects?: [];
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: string;
+  updatedAt: string;
 }
