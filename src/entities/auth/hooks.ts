@@ -1,4 +1,4 @@
-import { queryOptions, useMutation, useQuery } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 
 import {
@@ -8,7 +8,7 @@ import {
   refreshTokens,
   register,
 } from '@/entities/auth/auth-requests.ts';
-import { AUTH_ERROR_MESSAGES } from '@/lib/constants.ts';
+import { AUTH_ERROR_MESSAGES, DEFAULT_STALE_TIME } from '@/lib/constants.ts';
 import { handleError } from '@/lib/utils.ts';
 
 export const useLogin = () => {
@@ -49,6 +49,7 @@ export const useLogout = () => {
 export const userQueryOptions = queryOptions({
   queryKey: ['me'],
   queryFn: getProfile,
+  staleTime: DEFAULT_STALE_TIME,
 });
 
 export const useGetUser = () => {
@@ -59,8 +60,8 @@ export const useGetUser = () => {
 };
 
 export const useGetUserProfile = () => {
-  const userQuery = useGetUser();
-  const user = userQuery.data?.data;
+  const userResponse = useSuspenseQuery(userQueryOptions);
+  const user = userResponse.data.data;
 
   if (!user?.id) throw new Error('User not found');
 

@@ -7,9 +7,7 @@ import { userQueryOptions } from '@/entities/auth/hooks.ts';
 
 export const Route = createFileRoute('/_authenticated/profile/')({
   component: ProfilePage,
-  loader: ({ context }) => {
-    context.queryClient.ensureQueryData(userQueryOptions);
-  },
+  loader: ({ context }) => context.queryClient.ensureQueryData(userQueryOptions),
 });
 
 function ProfilePage() {

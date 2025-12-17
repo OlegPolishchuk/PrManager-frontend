@@ -11,9 +11,14 @@ export interface BaseErrorResponse {
   status: number;
 }
 
-export interface ListResponse<ItemsType> {
-  total: number;
+export type PaginatedRequestFields = Partial<{
   limit: number;
   page: number;
-  items: ItemsType[];
+}>;
+
+export interface ListResponse<ItemsType> {
+  totalCount: number;
+  limit: number;
+  page: number;
+  data: ItemsType[];
 }
