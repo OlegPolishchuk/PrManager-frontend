@@ -56,10 +56,10 @@ export const ProfileNameForm = ({ className, userId, username }: Props) => {
       {editMode ? (
         <form
           id={'profile_name_form'}
-          className={'flex items-center'}
+          className={'flex items-center md:items-start'}
           onSubmit={form.handleSubmit(handleSubmit)}
         >
-          <FieldGroup className={'relative flex items-center justify-center!'}>
+          <FieldGroup className={'relative flex items-center justify-center! md:items-start'}>
             <Controller
               name='name'
               control={form.control}
@@ -68,7 +68,7 @@ export const ProfileNameForm = ({ className, userId, username }: Props) => {
                 return (
                   <Field
                     data-invalid={fieldState.invalid}
-                    className={'items-center justify-center gap-1'}
+                    className={'items-center justify-center gap-1 md:items-start'}
                   >
                     <div className={'relative flex w-fit! items-center'}>
                       <Input
@@ -111,7 +111,11 @@ export const ProfileNameForm = ({ className, userId, username }: Props) => {
           </FieldGroup>
         </form>
       ) : (
-        <div className={'relative mx-auto flex min-h-[36px] w-fit items-center gap-2'}>
+        <div
+          className={
+            'relative mx-auto flex min-h-[36px] w-fit items-center gap-2 md:mx-0 md:items-start'
+          }
+        >
           <Typography variant={'headline-4'} tag={'h1'}>
             {username}
           </Typography>

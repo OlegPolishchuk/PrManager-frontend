@@ -13,14 +13,14 @@ interface Props {
 export const ProfileDescription = ({ user }: Props) => {
   return (
     <div className={twMerge('flex flex-col items-center gap-6', 'md:flex-row md:items-start')}>
-      <Avatar className={'h-[100px] w-[100px] md:h-[250px] md:w-[250px]'}>
+      <Avatar className={'h-[100px] w-[100px] md:h-[150px] md:w-[150px] lg:h-[250px] lg:w-[250px]'}>
         <AvatarImage src={user.avatar} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
 
       <div className={'w-full'}>
         <ProfileNameForm
-          className={'mb-6 md:items-start'}
+          className={'mb-6 md:pl-4'}
           username={user.name ?? 'Username'}
           userId={user.id}
         />

@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import type { AxiosError } from 'axios';
 
 import { Header } from '@/app/components/header/header.tsx';
+import { Navigation } from '@/app/components/navigation/navigation.tsx';
 import { refreshTokensOptions, userQueryOptions } from '@/entities/auth/hooks.ts';
 
 export const Route = createFileRoute('/_authenticated')({
@@ -44,9 +45,13 @@ function AuthenticatedLayout() {
     <div className={'flex min-h-screen flex-col'}>
       <Header />
 
-      <main className={'container py-6'}>
-        <Outlet />
-      </main>
+      <div className={'container flex'}>
+        <Navigation />
+
+        <main className={'w-full py-6 md:pl-6'}>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
