@@ -1,7 +1,15 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 
 import { type ProjectSchema } from '@/app/components/pages/projects/project.schema.ts';
 import { ProjectForm } from '@/app/components/pages/projects/project-form.tsx';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/app/components/ui/breadcrumb.tsx';
 import { useCreateProject } from '@/entities/projects/hooks.ts';
 
 export const Route = createFileRoute('/_authenticated/projects/create')({
@@ -22,7 +30,22 @@ function CreateNewProjectPage() {
   };
 
   return (
-    <div>
+    <div className={'flex flex-col gap-6'}>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to={'/projects'}>Проекты</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+
+          <BreadcrumbItem>
+            <BreadcrumbPage>Новый проект</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
       <ProjectForm submitCallback={handleCreateNewProject} disabled={disabled} />
     </div>
   );

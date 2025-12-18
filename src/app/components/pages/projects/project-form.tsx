@@ -22,7 +22,6 @@ import { Input } from '@/app/components/ui/input.tsx';
 import { Select, SelectContent, SelectItem, SelectValue } from '@/app/components/ui/select';
 import { SelectTrigger } from '@/app/components/ui/select.tsx';
 import { Textarea } from '@/app/components/ui/textarea.tsx';
-import { Typography } from '@/app/components/ui/typography.tsx';
 import { type Project, PROJECT_STATUS } from '@/entities/projects/types.ts';
 import { transformToOptions } from '@/lib/utils.ts';
 
@@ -144,7 +143,8 @@ export const ProjectForm = ({ className, project, submitCallback, disabled }: Pr
                     <Input {...field} type={'color'} className={'w-[100px]!'} />
 
                     <div className={'flex items-center gap-2'}>
-                      <Typography>{field.value}</Typography>
+                      <Input {...field} />
+
                       <CopyButton value={field.value ?? ''} />
                     </div>
                   </div>
