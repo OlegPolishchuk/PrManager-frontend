@@ -1,6 +1,6 @@
 import { queryOptions, useMutation, useQuery } from '@tanstack/react-query';
 
-import { createNewProject, getProjects } from '@/entities/projects/project-requests.ts';
+import { createNewProject, getProject, getProjects } from '@/entities/projects/project-requests.ts';
 import type { PaginatedRequestFields } from '@/lib/api/types.ts';
 import { DEFAULT_STALE_TIME } from '@/lib/constants.ts';
 
@@ -23,5 +23,12 @@ export const useCreateProject = () => {
     onSuccess: () => {
       // queryClient.invalidateQueries(getProjectsQueryOptions({}).queryKey);
     },
+  });
+};
+
+export const getProjectQueryOptions = (id: string) => {
+  return queryOptions({
+    queryKey: ['project', id],
+    queryFn: () => getProject(id),
   });
 };

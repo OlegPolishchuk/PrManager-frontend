@@ -1,11 +1,27 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router';
-import { FolderPlus } from 'lucide-react';
+import { createFileRoute, Link, useNavigate, useSearch } from '@tanstack/react-router';
+import { FolderCode, FolderPlus } from 'lucide-react';
 
 import { CreateButton } from '@/app/components/buttons/create-button.tsx';
-import { Typography } from '@/app/components/ui/typography.tsx';
+import { Button } from '@/app/components/ui/button.tsx';
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/app/components/ui/empty.tsx';
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from '@/app/components/ui/item.tsx';
 import { getProjectsQueryOptions } from '@/entities/projects/hooks.ts';
 import type { PaginatedRequestFields } from '@/lib/api/types.ts';
+import { hexToRgba } from '@/lib/utils.ts';
 
 export const Route = createFileRoute('/_authenticated/projects/')({
   component: RouteComponent,
@@ -42,18 +58,48 @@ function RouteComponent() {
         Создать проект
       </CreateButton>
 
-      {!totalCount && (
-        <div className={'mt-20 flex h-full flex-col items-center justify-center gap-10'}>
-          <Typography variant={'headline-4'}>У вас еще нет ни одного проекта</Typography>
+      <div className={'mt-10 flex flex-col gap-6'}>
+        {projects.map((project) => {
+          return (
+            <Item
+              key={project.id}
+              variant='outline'
+              style={{ background: project.color ? hexToRgba(project.color) : 'transparent' }}
+            >
+              <ItemContent>
+                <ItemTitle>{project.name}</ItemTitle>
+                <ItemDescription>{project.description}</ItemDescription>
+              </ItemContent>
+              <ItemActions>
+                <Link to={'/projects/$projectId'} params={{ projectId: project.id }}>
+                  <Button variant='outline' size='sm'>
+                    Подробнее
+                  </Button>
+                </Link>
+              </ItemActions>
+            </Item>
+          );
+        })}
+      </div>
 
-          <CreateButton
-            className={''}
-            onClick={handleRedirectToCreateProjectPage}
-            icon={<FolderPlus />}
-          >
-            Создать проект
-          </CreateButton>
-        </div>
+      {!totalCount && (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant='icon'>
+              <FolderCode />
+            </EmptyMedia>
+            <EmptyTitle>Пока нет проектов</EmptyTitle>
+            <EmptyDescription>
+              У вас пока нет ни одного проекта. Создайте свой первый проект, чтобы начать работу.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent>
+            <div className='flex gap-2'>
+              <Button onClick={handleRedirectToCreateProjectPage}>Создать проект</Button>
+              <Button variant='outline'>Импортировать проект</Button>
+            </div>
+          </EmptyContent>
+        </Empty>
       )}
     </div>
   );

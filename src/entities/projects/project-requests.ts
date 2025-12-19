@@ -4,11 +4,19 @@ import { api } from '@/lib/api/instance.ts';
 import type { ListResponse, PaginatedRequestFields } from '@/lib/api/types.ts';
 
 export const getProjects = (paginatedParams: PaginatedRequestFields) => {
-  return api.get<ListResponse<Project[]>>('/api/projects', {
+  return api.get<ListResponse<Project>>('/api/projects', {
     params: paginatedParams,
   });
 };
 
 export const createNewProject = (data: ProjectSchema) => {
   return api.post<Project>('/api/projects/create', data);
+};
+
+export const getProject = (id: string) => {
+  return api.get<Project>(`/api/projects/${id}`);
+};
+
+export const deleteProject = (id: string) => {
+  return api.delete(`/api/projects/${id}`);
 };

@@ -17,6 +17,7 @@ import { Route as AuthenticatedProfileIndexRouteImport } from './routes/_authent
 import { Route as AuthRegisterIndexRouteImport } from './routes/_auth/register/index'
 import { Route as AuthLoginIndexRouteImport } from './routes/_auth/login/index'
 import { Route as AuthenticatedProjectsCreateRouteRouteImport } from './routes/_authenticated/projects/create/route'
+import { Route as AuthenticatedProjectsProjectIdRouteRouteImport } from './routes/_authenticated/projects/$projectId/route'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
@@ -59,9 +60,16 @@ const AuthenticatedProjectsCreateRouteRoute =
     path: '/projects/create',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedProjectsProjectIdRouteRoute =
+  AuthenticatedProjectsProjectIdRouteRouteImport.update({
+    id: '/projects/$projectId',
+    path: '/projects/$projectId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/projects/$projectId': typeof AuthenticatedProjectsProjectIdRouteRoute
   '/projects/create': typeof AuthenticatedProjectsCreateRouteRoute
   '/login': typeof AuthLoginIndexRoute
   '/register': typeof AuthRegisterIndexRoute
@@ -70,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/projects/$projectId': typeof AuthenticatedProjectsProjectIdRouteRoute
   '/projects/create': typeof AuthenticatedProjectsCreateRouteRoute
   '/login': typeof AuthLoginIndexRoute
   '/register': typeof AuthRegisterIndexRoute
@@ -81,6 +90,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteRouteWithChildren
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_authenticated/projects/$projectId': typeof AuthenticatedProjectsProjectIdRouteRoute
   '/_authenticated/projects/create': typeof AuthenticatedProjectsCreateRouteRoute
   '/_auth/login/': typeof AuthLoginIndexRoute
   '/_auth/register/': typeof AuthRegisterIndexRoute
@@ -91,6 +101,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/projects/$projectId'
     | '/projects/create'
     | '/login'
     | '/register'
@@ -99,6 +110,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/projects/$projectId'
     | '/projects/create'
     | '/login'
     | '/register'
@@ -109,6 +121,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/_authenticated'
+    | '/_authenticated/projects/$projectId'
     | '/_authenticated/projects/create'
     | '/_auth/login/'
     | '/_auth/register/'
@@ -180,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProjectsCreateRouteRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/projects/$projectId': {
+      id: '/_authenticated/projects/$projectId'
+      path: '/projects/$projectId'
+      fullPath: '/projects/$projectId'
+      preLoaderRoute: typeof AuthenticatedProjectsProjectIdRouteRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
@@ -198,12 +218,15 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 )
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedProjectsProjectIdRouteRoute: typeof AuthenticatedProjectsProjectIdRouteRoute
   AuthenticatedProjectsCreateRouteRoute: typeof AuthenticatedProjectsCreateRouteRoute
   AuthenticatedProfileIndexRoute: typeof AuthenticatedProfileIndexRoute
   AuthenticatedProjectsIndexRoute: typeof AuthenticatedProjectsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedProjectsProjectIdRouteRoute:
+    AuthenticatedProjectsProjectIdRouteRoute,
   AuthenticatedProjectsCreateRouteRoute: AuthenticatedProjectsCreateRouteRoute,
   AuthenticatedProfileIndexRoute: AuthenticatedProfileIndexRoute,
   AuthenticatedProjectsIndexRoute: AuthenticatedProjectsIndexRoute,

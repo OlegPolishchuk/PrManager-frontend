@@ -96,3 +96,16 @@ export function formatDate(date: string | Date | undefined, format = DEFAULT_DAT
 export const transformToOptions = (obj: Record<string, string>) => {
   return Object.entries(obj).map(([key, value]) => ({ label: value, value: key }));
 };
+
+/******************************************* */
+/******************************************* */
+/******************************************* */
+/* Функция для трансформации hex цвета в rgba (что бы делать прозрачнее) */
+export function hexToRgba(hex: string, alpha = 10) {
+  const [r, g, b] = hex
+    .replace('#', '')
+    .match(/.{1,2}/g)!
+    .map((x) => parseInt(x, 16));
+
+  return `rgba(${r}, ${g}, ${b}, ${alpha / 100})`;
+}

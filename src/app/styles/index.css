@@ -95,7 +95,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --color-theme-primary: #196dc2;
+  --color-theme-primary: oklch(0.59 0.14 242);
 }
 
 .dark {
@@ -133,7 +133,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 
-  --color-theme-primary: #79B8FF;
+  --color-theme-primary: oklch(0.68 0.15 237);
 }
 
 @layer base {
