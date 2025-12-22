@@ -107,5 +107,5 @@ export function hexToRgba(hex: string, alpha = 10) {
     .match(/.{1,2}/g)!
     .map((x) => parseInt(x, 16));
 
-  return `rgba(${r}, ${g}, ${b}, ${alpha / 100})`;
+  return `rgba(${r},${g},${b},${alpha / 100})`;
 }

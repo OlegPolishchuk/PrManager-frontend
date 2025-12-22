@@ -1,6 +1,8 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
+import { twMerge } from 'tailwind-merge';
 
+import { ProjectDescriptionTab } from '@/app/components/pages/current-project/tabs/project-description-tab/project-description-tab.tsx';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,8 +11,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/app/components/ui/breadcrumb.tsx';
-import { Card, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card.tsx';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs.tsx';
 import { getProjectQueryOptions } from '@/entities/projects/hooks.ts';
+import { hexToRgba } from '@/lib/utils.ts';
+
+const TABS = {
+  description: 'description',
+  links: 'links',
+};
 
 export const Route = createFileRoute('/_authenticated/projects/$projectId')({
   component: ProjectPage,
@@ -23,6 +31,13 @@ function ProjectPage() {
 
   const projectRequest = useSuspenseQuery(getProjectQueryOptions(projectId));
   const project = projectRequest.data.data;
+
+  const getTabTriggerStyles = (color?: string | null) => ({
+    style: {
+      ['--active-bg' as string]: hexToRgba(color ?? 'transparent'),
+    },
+    className: 'data-[state=active]:bg-[var(--active-bg)]!',
+  });
 
   return (
     <>
@@ -41,13 +56,21 @@ function ProjectPage() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Card className={'flex flex-col gap-6'}>
-        <CardHeader>
-          <CardTitle>{project.name}</CardTitle>
+      <Tabs defaultValue={TABS.description} className={twMerge('w-[400px]')}>
+        <TabsList className={'mb-6'}>
+          <TabsTrigger {...getTabTriggerStyles(project.color)} value={TABS.description}>
+            Общее описание
+          </TabsTrigger>
+          <TabsTrigger {...getTabTriggerStyles(project.color)} value={TABS.links}>
+            Ссылки проекта
+          </TabsTrigger>
+        </TabsList>
 
-          <CardDescription>{project.description}</CardDescription>
-        </CardHeader>
-      </Card>
+        <TabsContent value={TABS.description}>
+          <ProjectDescriptionTab project={project} />
+        </TabsContent>
+        <TabsContent value={TABS.links}>Change your password here.</TabsContent>
+      </Tabs>
     </>
   );
 }

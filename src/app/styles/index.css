@@ -44,6 +44,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   --color-theme: var(--color-theme-primary);
+  --color-warning: var(--warning-foreground);
 }
 
 :root {
@@ -96,6 +97,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 
   --color-theme-primary: oklch(0.59 0.14 242);
+  --warning-foreground: #FE9A00FF;
 }
 
 .dark {
@@ -134,6 +136,7 @@
   --sidebar-ring: oklch(0.556 0 0);
 
   --color-theme-primary: oklch(0.68 0.15 237);
+  --warning-foreground: #FE9A00FF;
 }
 
 @layer base {

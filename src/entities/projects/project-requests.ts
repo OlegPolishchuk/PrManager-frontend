@@ -1,5 +1,5 @@
 import type { ProjectSchema } from '@/app/components/pages/projects/project.schema.ts';
-import type { Project } from '@/entities/projects/types.ts';
+import type { Project, UpdateProject } from '@/entities/projects/types.ts';
 import { api } from '@/lib/api/instance.ts';
 import type { ListResponse, PaginatedRequestFields } from '@/lib/api/types.ts';
 
@@ -19,4 +19,8 @@ export const getProject = (id: string) => {
 
 export const deleteProject = (id: string) => {
   return api.delete(`/api/projects/${id}`);
+};
+
+export const updateProject = (data: UpdateProject) => {
+  return api.put<Project>(`/api/projects/${data.id}`, data);
 };

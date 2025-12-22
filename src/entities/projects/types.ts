@@ -6,6 +6,7 @@ export interface Project {
   icon?: string | null;
   ownerId: string;
   projectStatus: ProjectStatus;
+  links: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -23,5 +24,9 @@ export interface NewProjectCreateFields {
   description: string;
   color?: string | null;
   icon?: string | null;
-  projectStatus: ProjectStatus;
+  projectStatus: string;
+}
+
+export interface UpdateProject extends NewProjectCreateFields {
+  id: string;
 }

@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 
+import { NewProjectFormCard } from '@/app/components/pages/projects/new-project-form-card.tsx';
 import { type ProjectSchema } from '@/app/components/pages/projects/project.schema.ts';
-import { ProjectForm } from '@/app/components/pages/projects/project-form.tsx';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -46,7 +46,7 @@ function CreateNewProjectPage() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <ProjectForm submitCallback={handleCreateNewProject} disabled={disabled} />
+      <NewProjectFormCard submitCallback={handleCreateNewProject} disabled={disabled} />
     </div>
   );
 }
