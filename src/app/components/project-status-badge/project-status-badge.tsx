@@ -16,7 +16,10 @@ const badgeClassNames: Record<ProjectStatus, string> = {
 
 export const ProjectStatusBadge = ({ status, className }: Props) => {
   return (
-    <Badge variant={'outline'} className={twMerge(badgeClassNames[status], className)}>
+    <Badge
+      variant={'outline'}
+      className={twMerge('bg-sidebar-primary-foreground', badgeClassNames[status], className)}
+    >
       {PROJECT_STATUS[status]}
     </Badge>
   );
