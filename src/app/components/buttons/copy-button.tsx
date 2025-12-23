@@ -8,9 +8,11 @@ interface Props {
   value: string;
   className?: string;
   noteDuration?: number;
+  children?: React.ReactNode;
+  onClick?: () => void;
 }
 
-export const CopyButton = ({ className, value, noteDuration = 3000 }: Props) => {
+export const CopyButton = ({ className, value, children, onClick, noteDuration = 3000 }: Props) => {
   const { copy } = useCopy();
 
   const handleCopy = () => {
@@ -19,8 +21,11 @@ export const CopyButton = ({ className, value, noteDuration = 3000 }: Props) => 
         toast.success('Скопировано в буфер!', {
           duration: noteDuration,
         });
+
+        if (onClick) onClick();
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log('error =>', err);
         toast.error('Ошибка копирования!', {
           duration: noteDuration,
         });
@@ -29,6 +34,7 @@ export const CopyButton = ({ className, value, noteDuration = 3000 }: Props) => 
 
   return (
     <Button variant={'outline'} className={className} onClick={handleCopy}>
+      {children}
       <Copy />
     </Button>
   );

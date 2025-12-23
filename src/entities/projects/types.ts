@@ -1,3 +1,5 @@
+import type { ProjectLink } from '@/entities/project-link/types.ts';
+
 export interface Project {
   id: string;
   name: string;
@@ -6,7 +8,7 @@ export interface Project {
   icon?: string | null;
   ownerId: string;
   projectStatus: ProjectStatus;
-  links: string[];
+  links: ProjectLink[];
   createdAt: string;
   updatedAt: string;
 }

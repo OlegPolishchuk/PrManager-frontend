@@ -1,8 +1,9 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useSearch } from '@tanstack/react-router';
 import { twMerge } from 'tailwind-merge';
 
 import { ProjectDescriptionTab } from '@/app/components/pages/current-project/tabs/project-description-tab/project-description-tab.tsx';
+import { ProjectLinksTab } from '@/app/components/pages/current-project/tabs/project-links-tab/project-links-tab.tsx';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,15 +20,22 @@ const TABS = {
   description: 'description',
   links: 'links',
 };
+type TabValue = (typeof TABS)[keyof typeof TABS];
 
 export const Route = createFileRoute('/_authenticated/projects/$projectId')({
   component: ProjectPage,
   loader: ({ context, params }) =>
     context.queryClient.ensureQueryData(getProjectQueryOptions(params.projectId)),
+  // Определяем search параметры
+  validateSearch: (search: Record<string, unknown>): { tab?: TabValue } => ({
+    tab: (search.tab as TabValue) ?? TABS.description,
+  }),
 });
 
 function ProjectPage() {
   const { projectId } = Route.useParams();
+  const { tab: activeTab } = useSearch({ from: '/_authenticated/projects/$projectId' });
+  const navigate = Route.useNavigate();
 
   const projectRequest = useSuspenseQuery(getProjectQueryOptions(projectId));
   const project = projectRequest.data.data;
@@ -38,6 +46,12 @@ function ProjectPage() {
     },
     className: 'data-[state=active]:bg-[var(--active-bg)]!',
   });
+
+  const handleTabChange = (value: TabValue) => {
+    navigate({
+      search: (prev) => ({ ...prev, tab: value }),
+    });
+  };
 
   return (
     <>
@@ -56,7 +70,11 @@ function ProjectPage() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Tabs defaultValue={TABS.description} className={twMerge('w-[400px]')}>
+      <Tabs
+        defaultValue={activeTab}
+        className={twMerge('w-[400px]')}
+        onValueChange={handleTabChange}
+      >
         <TabsList className={'mb-6'}>
           <TabsTrigger {...getTabTriggerStyles(project.color)} value={TABS.description}>
             Общее описание
@@ -69,7 +87,9 @@ function ProjectPage() {
         <TabsContent value={TABS.description}>
           <ProjectDescriptionTab project={project} />
         </TabsContent>
-        <TabsContent value={TABS.links}>Change your password here.</TabsContent>
+        <TabsContent value={TABS.links}>
+          <ProjectLinksTab project={project} />
+        </TabsContent>
       </Tabs>
     </>
   );

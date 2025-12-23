@@ -27,8 +27,8 @@ export const ProjectDescription = ({ project, className, clickCallback }: Props)
   return (
     <Card className={twMerge('flex flex-col gap-6', className)}>
       <CardHeader>
-        <div className={'flex items-start justify-between'}>
-          <CardTitle className={'mb-'}>
+        <div className={'flex min-h-[36px] items-start justify-between'}>
+          <CardTitle>
             <Typography variant={'headline-3'}>{project.name}</Typography>
           </CardTitle>
         </div>
