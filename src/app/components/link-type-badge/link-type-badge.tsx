@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
+import { SwaggerIcon } from '@/app/components/ui/icons/swagger-icon.tsx';
 import { Typography } from '@/app/components/ui/typography.tsx';
 import { type ProjectLinkType } from '@/entities/project-link/types.ts';
 
@@ -24,6 +25,7 @@ const badgeClassNames: Record<ProjectLinkType, string> = {
   PROD: 'text-emerald-600 dark:text-emerald-400',
   DOCS: 'text-sky-600 dark:text-sky-400',
   OTHER: 'text-muted-foreground',
+  SWAGGER: 'text-[#19B6B5]',
 };
 
 const badgeIcons: Record<ProjectLinkType, ReactNode> = {
@@ -33,6 +35,7 @@ const badgeIcons: Record<ProjectLinkType, ReactNode> = {
   PROD: <ShieldCheck />,
   DOCS: <BookOpenText />,
   OTHER: <MoreHorizontal />,
+  SWAGGER: <SwaggerIcon />,
 };
 
 export const LinkTypeBadge = ({ linkType, className }: Props) => {

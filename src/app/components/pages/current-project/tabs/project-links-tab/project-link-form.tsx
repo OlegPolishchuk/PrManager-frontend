@@ -24,7 +24,7 @@ export const projectLinkSchema = z.object({
 
   description: z.string().optional(),
   url: z.string().url({ message: 'Невалидный URL' }),
-  type: z.enum(['REPO', 'FIGMA', 'DEV', 'PROD', 'DOCS', 'OTHER']),
+  type: z.enum(['REPO', 'FIGMA', 'DEV', 'PROD', 'DOCS', 'OTHER', 'SWAGGER']),
   projectId: z.string({ message: REQUIRED_MESSAGE }),
 });
 

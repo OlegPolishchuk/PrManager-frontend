@@ -12,10 +12,11 @@ export interface ProjectLink {
   updatedAt: string;
 }
 
-export type ProjectLinkType = 'REPO' | 'FIGMA' | 'DEV' | 'PROD' | 'DOCS' | 'OTHER';
+export type ProjectLinkType = 'REPO' | 'FIGMA' | 'DEV' | 'PROD' | 'DOCS' | 'OTHER' | 'SWAGGER';
 
 export const LINK_TYPES = {
   REPO: 'Репозиторий',
+  SWAGGER: 'Swagger API',
   FIGMA: 'Фигма',
   DEV: 'Девелоп стенд',
   PROD: 'Продакшен стенд',
