@@ -52,7 +52,10 @@ export const LinkCard = ({ link }: Props) => {
         <ItemContent className={'truncate overflow-hidden'}>
           <div className={'flex items-center gap-2'}>
             <LinkTypeBadge linkType={link.type} />
-            <ItemTitle className={'flex flex-row items-center'}>{link.title}</ItemTitle>
+
+            <a href={link.url} target={'_blank'} className={'underline'}>
+              <ItemTitle className={'flex flex-row items-center'}>{link.title}</ItemTitle>
+            </a>
           </div>
 
           <ItemDescription className={'w-full truncate text-nowrap'}>{link.url}</ItemDescription>

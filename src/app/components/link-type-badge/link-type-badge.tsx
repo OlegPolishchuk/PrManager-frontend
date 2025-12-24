@@ -1,14 +1,9 @@
 import type { ReactNode } from 'react';
-import {
-  BookOpenText,
-  Figma,
-  FlaskConical,
-  Gitlab,
-  MoreHorizontal,
-  ShieldCheck,
-} from 'lucide-react';
+import { BookOpenText, FlaskConical, MoreHorizontal, ShieldCheck } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
+import { FigmaIcon } from '@/app/components/ui/icons/figma-icon.tsx';
+import { GitlabIcon } from '@/app/components/ui/icons/gitlab-icon.tsx';
 import { SwaggerIcon } from '@/app/components/ui/icons/swagger-icon.tsx';
 import { Typography } from '@/app/components/ui/typography.tsx';
 import { type ProjectLinkType } from '@/entities/project-link/types.ts';
@@ -19,8 +14,8 @@ interface Props {
 }
 
 const badgeClassNames: Record<ProjectLinkType, string> = {
-  REPO: 'text-[#FC6D26]',
-  FIGMA: 'text-[#F24E1E]',
+  REPO: 'fill-[#FC6D26]',
+  FIGMA: 'fill-[#F24E1E]',
   DEV: 'text-slate-700 dark:text-slate-200',
   PROD: 'text-emerald-600 dark:text-emerald-400',
   DOCS: 'text-sky-600 dark:text-sky-400',
@@ -29,8 +24,8 @@ const badgeClassNames: Record<ProjectLinkType, string> = {
 };
 
 const badgeIcons: Record<ProjectLinkType, ReactNode> = {
-  REPO: <Gitlab />,
-  FIGMA: <Figma />,
+  REPO: <GitlabIcon />,
+  FIGMA: <FigmaIcon />,
   DEV: <FlaskConical />,
   PROD: <ShieldCheck />,
   DOCS: <BookOpenText />,
