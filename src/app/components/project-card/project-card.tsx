@@ -27,7 +27,7 @@ export const ProjectCard = ({ project, className }: Props) => {
       style={{ background: project.color ? hexToRgba(project.color) : 'transparent' }}
     >
       <ItemContent>
-        <div className={'flex items-center gap-4'}>
+        <div className={'flex flex-col md:flex-row md:items-center md:gap-4'}>
           <ItemTitle>{project.name}</ItemTitle>
           <Typography variant={'muted'}>{formatDate(project.createdAt)}</Typography>
 

@@ -27,11 +27,13 @@ export const LinkCard = ({ link }: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Item key={link.id} variant='outline'>
-      <ItemContent>
+    <Item key={link.id} variant='outline' className={'items-start'}>
+      <ItemContent className={'truncate overflow-hidden'}>
         <ItemTitle>{link.title}</ItemTitle>
+        <ItemDescription className={'w-full truncate text-nowrap'}>{link.url}</ItemDescription>
         <ItemDescription>{link.description}</ItemDescription>
       </ItemContent>
+
       <ItemActions>
         <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger asChild className={'data-[state=open]:text-destructive'}>
