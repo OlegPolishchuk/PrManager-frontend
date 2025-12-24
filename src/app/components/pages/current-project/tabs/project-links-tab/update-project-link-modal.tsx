@@ -1,8 +1,6 @@
-import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { CreateButton } from '@/app/components/buttons/create-button.tsx';
 import {
   ProjectLinkForm,
   type ProjectLinkSchema,
@@ -17,52 +15,52 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/app/components/ui/dialog.tsx';
 import { Field } from '@/app/components/ui/field.tsx';
 import { ScrollArea } from '@/app/components/ui/scroll-area.tsx';
-import { useCreateProjectLink } from '@/entities/project-link/hooks.ts';
+import { useUpdateProjectLink } from '@/entities/project-link/hooks.ts';
+import type { ProjectLink } from '@/entities/project-link/types.ts';
 
 const FORM_ID = 'project-link-create-form';
 
 interface Props {
-  className?: string;
-  children?: React.ReactNode;
-  projectId: string;
+  open: boolean;
+  link: ProjectLink;
+  onOpenChange: (open: boolean) => void;
 }
 
-export const CreateProjectLinkModal = ({ className, children, projectId }: Props) => {
-  const [open, setOpen] = useState(false);
-
+export const UpdateProjectLinkModal = ({ link, open, onOpenChange }: Props) => {
   const form = useForm<ProjectLinkSchema>({
     resolver: zodResolver(projectLinkSchema),
     defaultValues: {
-      url: '',
-      type: 'OTHER',
-      title: '',
-      description: '',
-      projectId,
+      url: link.url,
+      type: link.type,
+      title: link.title,
+      description: link.description || '',
+      projectId: link.projectId,
     },
   });
-  const createLinkMutation = useCreateProjectLink();
-  const disabled = createLinkMutation.isPending;
+  const updateLinkMutation = useUpdateProjectLink();
+  const disabled = updateLinkMutation.isPending;
 
   const handleSubmit = (data: ProjectLinkSchema) => {
     console.log(data);
-    createLinkMutation.mutate(data, {
+    const updatedLinkData = { id: link.id, ...data };
+    updateLinkMutation.mutate(updatedLinkData, {
       onSuccess: () => {
-        setOpen(false);
-        form.reset();
+        onOpenChange(false);
       },
     });
   };
 
   return (
     <FormProvider {...form}>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <CreateButton className={className}>{children}</CreateButton>
-        </DialogTrigger>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        {/*<DialogTrigger asChild>*/}
+        {/*  <EditButton className={twMerge('w-full justify-between', className)}>*/}
+        {/*    Редактировать*/}
+        {/*  </EditButton>*/}
+        {/*</DialogTrigger>*/}
         <DialogContent className={'max-h-[90%]'}>
           <DialogHeader>
             <DialogTitle>Новая ссылка</DialogTitle>
@@ -89,7 +87,7 @@ export const CreateProjectLinkModal = ({ className, children, projectId }: Props
               </DialogClose>
 
               <Button type='submit' form={FORM_ID} disabled={disabled} loading={disabled}>
-                Создать
+                Сохранить
               </Button>
             </Field>
           </DialogFooter>
