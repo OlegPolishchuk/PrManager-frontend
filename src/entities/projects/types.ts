@@ -1,3 +1,4 @@
+import type { Note } from '@/entities/notes/types.ts';
 import type { ProjectLink } from '@/entities/project-link/types.ts';
 
 export interface Project {
@@ -9,6 +10,7 @@ export interface Project {
   ownerId: string;
   projectStatus: ProjectStatus;
   links: ProjectLink[];
+  notes: Note[];
   createdAt: string;
   updatedAt: string;
 }

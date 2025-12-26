@@ -14,7 +14,7 @@ interface Props {
 }
 
 const badgeClassNames: Record<ProjectLinkType, string> = {
-  REPO: 'fill-[#FC6D26]',
+  REPO: 'stroke-[#FC6D26] fill-[#FC6D26]',
   FIGMA: 'fill-[#F24E1E]',
   DEV: 'text-slate-700 dark:text-slate-200',
   PROD: 'text-emerald-600 dark:text-emerald-400',

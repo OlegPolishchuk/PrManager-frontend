@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { ProjectDescriptionTab } from '@/app/components/pages/current-project/tabs/project-description-tab/project-description-tab.tsx';
 import { ProjectLinksTab } from '@/app/components/pages/current-project/tabs/project-links-tab/project-links-tab.tsx';
+import { ProjectNotesTab } from '@/app/components/pages/current-project/tabs/project-notes-tab/project-notes-tab.tsx';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,6 +20,7 @@ import { hexToRgba } from '@/lib/utils.ts';
 const TABS = {
   description: 'description',
   links: 'links',
+  notes: 'notes',
 };
 type TabValue = (typeof TABS)[keyof typeof TABS];
 
@@ -77,10 +79,13 @@ function ProjectPage() {
       >
         <TabsList className={'mb-6'}>
           <TabsTrigger {...getTabTriggerStyles(project.color)} value={TABS.description}>
-            Общее описание
+            Описание
           </TabsTrigger>
           <TabsTrigger {...getTabTriggerStyles(project.color)} value={TABS.links}>
-            Ссылки проекта
+            Ссылки
+          </TabsTrigger>
+          <TabsTrigger {...getTabTriggerStyles(project.color)} value={TABS.notes}>
+            Заметки
           </TabsTrigger>
         </TabsList>
 
@@ -89,6 +94,9 @@ function ProjectPage() {
         </TabsContent>
         <TabsContent value={TABS.links}>
           <ProjectLinksTab project={project} />
+        </TabsContent>
+        <TabsContent value={TABS.notes}>
+          <ProjectNotesTab project={project} />
         </TabsContent>
       </Tabs>
     </>

@@ -1,8 +1,7 @@
 import { FolderCode } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
-import { LinkCard } from '@/app/components/link-card/link-card.tsx';
-import { CreateProjectLinkModal } from '@/app/components/pages/current-project/tabs/project-links-tab/create-project-link-modal.tsx';
+import { CreateProjectNoteModal } from '@/app/components/pages/current-project/tabs/project-notes-tab/create-project-note-modal.tsx';
 import {
   Card,
   CardContent,
@@ -30,7 +29,7 @@ interface Props {
   className?: string;
 }
 
-export const ProjectLinks = ({ project, className }: Props) => {
+export const ProjectNotesTab = ({ project, className }: Props) => {
   return (
     <Card className={twMerge('flex flex-col gap-6', className)}>
       <CardHeader>
@@ -41,48 +40,48 @@ export const ProjectLinks = ({ project, className }: Props) => {
             </Typography>
           </CardTitle>
 
-          <CreateProjectLinkModal projectId={project.id} />
+          <CreateProjectNoteModal projectId={project.id} />
         </div>
 
-        <CardDescription>Cсылки для проекта</CardDescription>
+        <CardDescription>
+          Данные доступа и заметки по проекту. Используйте для учётных записей, токенов и параметров
+          окружения.
+        </CardDescription>
       </CardHeader>
 
       <Separator style={{ background: hexToRgba(project.color ?? 'var(--color-border)') }} />
 
       <CardContent className={'flex flex-col gap-4'}>
-        {project.links.length === 0 && (
+        {project.notes.length === 0 && (
           <Empty>
             <EmptyHeader>
               <EmptyMedia variant='icon'>
                 <FolderCode />
               </EmptyMedia>
-              <EmptyTitle>В проекте пока нет ссылок</EmptyTitle>
+              <EmptyTitle>В проекте пока нет заметок</EmptyTitle>
               <EmptyDescription>
-                Добавьте первую ссылку, чтобы начать работу с проектом «{project.name}».
+                Добавьте первую запись: аккаунт, пароль, токен или заметку для проекта «
+                {project.name}».
               </EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
               <div className='flex gap-2'>
-                <CreateProjectLinkModal projectId={project.id}>
-                  Добавить ссылку
-                </CreateProjectLinkModal>
+                <CreateProjectNoteModal projectId={project.id}>
+                  Добавить заметку
+                </CreateProjectNoteModal>
               </div>
             </EmptyContent>
           </Empty>
         )}
 
-        {project.links.length > 0 && (
-          <div className={'flex flex-col gap-3'}>
-            {project.links.map((link) => (
-              <LinkCard key={link.id} link={link} />
-            ))}
-          </div>
-        )}
+        {project.notes.map((note) => (
+          <p>{note.id}</p>
+        ))}
       </CardContent>
 
       <CardFooter>
         <Field orientation='horizontal' className={'justify-end'}>
-          <CreateProjectLinkModal projectId={project.id}>Добавить ссылку</CreateProjectLinkModal>
+          <CreateProjectNoteModal projectId={project.id}>Добавить заметку</CreateProjectNoteModal>
         </Field>
       </CardFooter>
     </Card>
