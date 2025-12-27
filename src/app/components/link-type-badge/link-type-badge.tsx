@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { BookOpenText, FlaskConical, MoreHorizontal, ShieldCheck } from 'lucide-react';
+import { BookOpenText, Code, MoreHorizontal, ShieldCheck } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
 import { FigmaIcon } from '@/app/components/ui/icons/figma-icon.tsx';
@@ -26,7 +26,7 @@ const badgeClassNames: Record<ProjectLinkType, string> = {
 const badgeIcons: Record<ProjectLinkType, ReactNode> = {
   REPO: <GitlabIcon />,
   FIGMA: <FigmaIcon />,
-  DEV: <FlaskConical />,
+  DEV: <Code />,
   PROD: <ShieldCheck />,
   DOCS: <BookOpenText />,
   OTHER: <MoreHorizontal />,
