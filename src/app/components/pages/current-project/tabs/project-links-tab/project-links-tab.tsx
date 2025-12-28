@@ -1,7 +1,7 @@
 import { FolderCode } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
-import { LinkCard } from '@/app/components/link-card/link-card.tsx';
+import { LinkCard } from '@/app/components/note-card/link-card.tsx';
 import { CreateProjectLinkModal } from '@/app/components/pages/current-project/tabs/project-links-tab/create-project-link-modal.tsx';
 import {
   Card,

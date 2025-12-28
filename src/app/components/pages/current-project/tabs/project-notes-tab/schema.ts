@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { REQUIRED_MESSAGE } from '@/lib/constants.ts';
+
 export const noteLinkSchema = z.object({
   projectId: z.string().min(1),
   title: z.string().min(1),
@@ -11,21 +13,27 @@ const baseNoteSchema = z.object({
   links: z.array(noteLinkSchema),
 });
 
+export const NoteGroupSchema = z.object({
+  title: z.string().min(1, 'Введите название'),
+  value: z.string().min(1, 'Введите значение'),
+});
+
 export const projectNoteSchema = z.discriminatedUnion('type', [
   // NOTE: note обязателен, title/value запрещены
   baseNoteSchema.extend({
     type: z.literal('NOTE'),
     note: z.string().min(1, 'Введите текст заметки'),
-    title: z.string().optional(),
-    value: z.string().optional(),
+    records: z.array(NoteGroupSchema).max(0), // запрещаем элементы
   }),
 
   // НЕ NOTE: title/value обязательны, note запрещено
   baseNoteSchema.extend({
     type: z.enum(['CREDENTIALS', 'ENVIRONMENT', 'PAYMENT_TEST']),
-    title: z.string().min(1, 'Введите название'),
-    value: z.string().min(1, 'Введите значение'),
-    note: z.string().optional(),
+    records: z.array(NoteGroupSchema),
+    groupTitle: z
+      .string({ message: REQUIRED_MESSAGE })
+      .min(1, { message: 'Введите название подгруппы' }),
+    note: z.undefined(),
   }),
 ]);
 

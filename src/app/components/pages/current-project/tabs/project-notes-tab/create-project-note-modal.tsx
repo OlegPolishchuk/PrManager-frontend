@@ -48,8 +48,6 @@ export const CreateProjectNoteModal = ({ className, children, projectId }: Props
   const createNoteMutation = useCreateNote();
   const disabled = createNoteMutation.isPending;
 
-  console.log(form.formState.errors);
-
   const handleSubmit = (data: ProjectNoteSchema) => {
     console.log(data);
 

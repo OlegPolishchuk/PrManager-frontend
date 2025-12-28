@@ -13,7 +13,12 @@ export const CreateButton = ({
   icon?: ReactNode;
 }) => {
   return (
-    <Button {...restProps} variant={'outline'} className={twMerge('w-fit', className)}>
+    <Button
+      type={'button'}
+      {...restProps}
+      variant={'outline'}
+      className={twMerge('w-fit', className)}
+    >
       {children}
       {icon ? icon : <Plus className={'text-destructive'} />}
     </Button>

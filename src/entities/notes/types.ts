@@ -1,13 +1,20 @@
 export interface Note {
   id: string;
-  title: string;
-  value: string;
+
   note?: string;
   type: NoteType;
   links: RecordLink[];
   projectId: string;
   createdAt: string;
   updatedAt: string;
+
+  groupTitle: string;
+  records: NoteGroup[];
+}
+
+export interface NoteGroup {
+  title: string;
+  value: string;
 }
 
 export type NoteType = 'NOTE' | 'CREDENTIALS' | 'ENVIRONMENT' | 'PAYMENT_TEST';

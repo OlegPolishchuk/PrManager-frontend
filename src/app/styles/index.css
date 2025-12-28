@@ -45,6 +45,7 @@
 
   --color-theme: var(--color-theme-primary);
   --color-warning: var(--warning-foreground);
+  --color-note: var(--color-note-bg);
 }
 
 :root {
@@ -98,6 +99,7 @@
 
   --color-theme-primary: oklch(0.59 0.14 242);
   --warning-foreground: #FE9A00FF;
+  --color-note-bg: #c0f8f4;
 }
 
 .dark {
@@ -137,6 +139,7 @@
 
   --color-theme-primary: oklch(0.68 0.15 237);
   --warning-foreground: #FE9A00FF;
+  --color-note-bg: #009689FF;
 }
 
 @layer base {
