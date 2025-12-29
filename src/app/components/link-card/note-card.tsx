@@ -6,6 +6,7 @@ import { twMerge } from 'tailwind-merge';
 import { CopyButton } from '@/app/components/buttons/copy-button.tsx';
 import { DeleteButton } from '@/app/components/buttons/delete-button.tsx';
 import { EditButton } from '@/app/components/buttons/edit-button.tsx';
+import { DeleteProjectNoteModal } from '@/app/components/pages/current-project/tabs/project-notes-tab/delete-project-note-modal.tsx';
 import { Button } from '@/app/components/ui/button.tsx';
 import {
   DropdownMenu,
@@ -24,10 +25,7 @@ interface Props {
 export const NoteCard = ({ note }: Props) => {
   const navigate = useNavigate();
   const [openDropdown, setOpenDropdown] = useState(false);
-
-  const handleDeleteNote = (id: string) => {
-    console.log(id);
-  };
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const handleEditLinkClick = () => {
     navigate({ to: `/projects/${note.projectId}/note/update/${note.id}` });
@@ -76,13 +74,19 @@ export const NoteCard = ({ note }: Props) => {
                 <EditButton className={twMerge('w-full justify-between')}>Редактировать</EditButton>
               </DropdownMenuItem>
 
-              <DropdownMenuItem onClick={() => handleDeleteNote(note.id)}>
+              <DropdownMenuItem onClick={() => setOpenDeleteModal(true)}>
                 <DeleteButton className={'w-full justify-between'}>Удалить</DeleteButton>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </ItemActions>
       </Item>
+
+      <DeleteProjectNoteModal
+        note={note}
+        open={openDeleteModal}
+        onOpenChange={setOpenDeleteModal}
+      />
     </>
   );
 };

@@ -19,3 +19,7 @@ export const updateNote = (requestData: UpdateNoteRequestFields) => {
 export const getNoteById = (projectId: string, noteId: string) => {
   return api.get<Note>(`/api/projects/${projectId}/notes/${noteId}`);
 };
+
+export const deleteNote = ({ projectId, noteId }: { projectId: string; noteId: string }) => {
+  return api.delete<Note>(`/api/projects/${projectId}/notes/${noteId}`);
+};

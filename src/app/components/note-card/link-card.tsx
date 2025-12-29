@@ -6,6 +6,7 @@ import { CopyButton } from '@/app/components/buttons/copy-button.tsx';
 import { DeleteButton } from '@/app/components/buttons/delete-button.tsx';
 import { EditButton } from '@/app/components/buttons/edit-button.tsx';
 import { LinkTypeBadge } from '@/app/components/link-type-badge/link-type-badge.tsx';
+import { DeleteProjectLinkModal } from '@/app/components/pages/current-project/tabs/project-links-tab/delete-project-link-modal.tsx';
 import { UpdateProjectLinkModal } from '@/app/components/pages/current-project/tabs/project-links-tab/update-project-link-modal.tsx';
 import { Button } from '@/app/components/ui/button.tsx';
 import {
@@ -21,7 +22,6 @@ import {
   ItemDescription,
   ItemTitle,
 } from '@/app/components/ui/item.tsx';
-import { useDeleteProjectLink } from '@/entities/project-link/hooks.ts';
 import type { ProjectLink } from '@/entities/project-link/types.ts';
 
 interface Props {
@@ -31,16 +31,7 @@ interface Props {
 export const LinkCard = ({ link }: Props) => {
   const [openDropdown, setOpenDropdown] = useState(false);
   const [isEditMode, setEditMode] = useState(false);
-
-  const deleteLinkMutation = useDeleteProjectLink();
-
-  const handleDeleteLink = (id: string) => {
-    console.log(id);
-
-    deleteLinkMutation.mutate(id, {
-      onSuccess: () => setOpenDropdown(false),
-    });
-  };
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const handleEditLinkClick = () => {
     setEditMode(true);
@@ -80,7 +71,7 @@ export const LinkCard = ({ link }: Props) => {
                 <EditButton className={twMerge('w-full justify-between')}>Редактировать</EditButton>
               </DropdownMenuItem>
 
-              <DropdownMenuItem onClick={() => handleDeleteLink(link.id)}>
+              <DropdownMenuItem onClick={() => setDeleteModalOpen(true)}>
                 <DeleteButton className={'w-full justify-between'}>Удалить</DeleteButton>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -89,6 +80,11 @@ export const LinkCard = ({ link }: Props) => {
       </Item>
 
       <UpdateProjectLinkModal link={link} open={isEditMode} onOpenChange={setEditMode} />
+      <DeleteProjectLinkModal
+        link={link}
+        open={deleteModalOpen}
+        onOpenChange={setDeleteModalOpen}
+      />
     </>
   );
 };
