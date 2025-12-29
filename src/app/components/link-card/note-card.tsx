@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import { MoreVertical } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
@@ -21,15 +22,15 @@ interface Props {
 }
 
 export const NoteCard = ({ note }: Props) => {
+  const navigate = useNavigate();
   const [openDropdown, setOpenDropdown] = useState(false);
-  const [isEditMode, setEditMode] = useState(false);
 
   const handleDeleteNote = (id: string) => {
     console.log(id);
   };
 
   const handleEditLinkClick = () => {
-    setEditMode(true);
+    navigate({ to: `/projects/${note.projectId}/note/update/${note.id}` });
   };
 
   return (
@@ -46,9 +47,9 @@ export const NoteCard = ({ note }: Props) => {
             </div>
           ) : (
             <div className={'flex flex-col gap-5 rounded-lg bg-theme/5 p-4'}>
-              {note.records?.map((record) => {
+              {note.records?.map((record, index) => {
                 return (
-                  <div className={''}>
+                  <div key={index}>
                     <Typography variant={'muted'}>{record.title}:</Typography>
 
                     <div className={'flex items-center gap-6'}>
@@ -82,8 +83,6 @@ export const NoteCard = ({ note }: Props) => {
           </DropdownMenu>
         </ItemActions>
       </Item>
-
-      {/*<UpdateProjectLinkModal link={link} open={isEditMode} onOpenChange={setEditMode} />*/}
     </>
   );
 };

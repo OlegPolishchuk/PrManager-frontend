@@ -52,6 +52,11 @@ export const ProjectDescription = ({ project, className, clickCallback }: Props)
         </div>
 
         <div className={'flex items-center justify-between'}>
+          <Typography variant={'muted'}>Заметки:</Typography>
+          <Typography variant={'small'}>{project.notes.length}</Typography>
+        </div>
+
+        <div className={'flex items-center justify-between'}>
           <Typography variant={'muted'}>Создан:</Typography>
           <Typography variant={'small'}>{formatDate(project.createdAt)}</Typography>
         </div>

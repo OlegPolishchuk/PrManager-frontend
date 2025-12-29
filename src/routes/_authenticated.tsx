@@ -48,7 +48,7 @@ function AuthenticatedLayout() {
       <div className={'container flex'}>
         <Navigation />
 
-        <main className={'w-full py-6 md:pl-6'}>
+        <main className={'w-full py-6 md:ml-[300px] md:pl-6'}>
           <Outlet />
         </main>
       </div>

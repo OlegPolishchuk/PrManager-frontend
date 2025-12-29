@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Separator } from '@radix-ui/react-separator';
 
-import { CreateButton } from '@/app/components/buttons/create-button.tsx';
 import { ProjectNoteForm } from '@/app/components/pages/current-project/tabs/project-notes-tab/project-note-form.tsx';
 import {
   type ProjectNoteSchema,
@@ -23,27 +21,35 @@ import {
 import { Field } from '@/app/components/ui/field.tsx';
 import { ScrollArea } from '@/app/components/ui/scroll-area.tsx';
 import { useCreateNote } from '@/entities/notes/hooks.tsx';
+import type { Note } from '@/entities/notes/types.ts';
 
-const FORM_ID = 'project-link-create-form';
+const FORM_ID = 'project-link-update-form';
 
 interface Props {
-  className?: string;
-  children?: React.ReactNode;
-  projectId: string;
+  note: Note;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export const CreateProjectNoteModal = ({ className, children, projectId }: Props) => {
-  const [open, setOpen] = useState(false);
-
+export const UpdateProjectNoteModal = ({ note, open, onOpenChange }: Props) => {
   const form = useForm<ProjectNoteSchema>({
     resolver: zodResolver(projectNoteSchema),
-    defaultValues: {
-      title: '',
-      value: '',
-      projectId,
-      type: 'CREDENTIALS',
-      links: [],
-    },
+    defaultValues:
+      note.type === 'NOTE'
+        ? {
+            type: 'NOTE',
+            links: note.links,
+            projectId: note.projectId,
+            records: note.records,
+            note: note.note,
+          }
+        : {
+            type: note.type,
+            links: note.links,
+            projectId: note.projectId,
+            records: note.records,
+            groupTitle: note.groupTitle,
+          },
   });
   const createNoteMutation = useCreateNote();
   const disabled = createNoteMutation.isPending;
@@ -53,7 +59,7 @@ export const CreateProjectNoteModal = ({ className, children, projectId }: Props
 
     createNoteMutation.mutate(data, {
       onSuccess: () => {
-        setOpen(false);
+        onOpenChange(false);
         form.reset();
       },
     });
@@ -61,16 +67,13 @@ export const CreateProjectNoteModal = ({ className, children, projectId }: Props
 
   return (
     <FormProvider {...form}>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <CreateButton className={className}>{children}</CreateButton>
-        </DialogTrigger>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogTrigger asChild></DialogTrigger>
         <DialogContent className={'max-h-[90%]'}>
           <DialogHeader>
-            <DialogTitle>Новая заметка</DialogTitle>
+            <DialogTitle>Редактировать заметку</DialogTitle>
             <DialogDescription>
-              Выберите тип заметки. Для «Заметка» — заполните текст, для остальных типов — добавьте
-              название и данные.
+              Внесите изменения в заметку и нажмите «Сохранить», чтобы обновить данные.
             </DialogDescription>
           </DialogHeader>
 
@@ -94,7 +97,7 @@ export const CreateProjectNoteModal = ({ className, children, projectId }: Props
               </DialogClose>
 
               <Button type='submit' form={FORM_ID} disabled={disabled} loading={disabled}>
-                Добавить
+                Сохранить
               </Button>
             </Field>
           </DialogFooter>

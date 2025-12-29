@@ -39,4 +39,12 @@ export interface CreateNoteRequestFields {
   type: NoteType;
   links: Omit<RecordLink, 'id'>[];
   projectId: string;
+
+  groupTitle?: string;
+  records: NoteGroup[];
+}
+
+export interface UpdateNoteRequestFields extends CreateNoteRequestFields {
+  projectId: string;
+  noteId: string;
 }

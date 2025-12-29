@@ -11,6 +11,7 @@ export const Navigation = () => {
         'hidden md:block',
         'h-[calc(100vh-75px)] w-[200px] min-w-[200px] bg-background',
         'border-r border-r-sidebar-border',
+        'md:fixed md:top-[75px]',
       )}
     >
       <div className={'flex h-full w-[300px] flex-col py-4'}>

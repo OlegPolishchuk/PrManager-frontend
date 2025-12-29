@@ -101,7 +101,7 @@ export const ProjectNotesTab = ({ project, className }: Props) => {
 
             <div className={'flex flex-col gap-4'}>
               {preparedNotes.NOTE.map((note) => {
-                return <NoteCard note={note} />;
+                return <NoteCard key={note.id} note={note} />;
               })}
             </div>
           </div>
